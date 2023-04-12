@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+from scipy.stats import norm
 
 chat_id = 371784753 # Ваш chat ID, не меняйте название переменной
 
@@ -11,4 +11,9 @@ def solution(x_success: int,
     # Измените код этой функции
     # Это будет вашим решением
     # Не меняйте название функции и её аргументы
-    return ... # Ваш ответ, True или False
+    p_control_op = x_success / x_cnt
+    p_test_op = y_success / y_cnt
+    p_control_robot = p_test_robot = (x_success + y_success) / (x_cnt + y_cnt)
+    z_stat = (p_test_robot - p_test_op) / np.sqrt(p_test_robot * (1 - p_test_robot) * (1 / x_cnt + 1 / y_cnt))
+    z_crit = norm.ppf(0.99)
+    return z_stat > z_crit
